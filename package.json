@@ -1,0 +1,19 @@
+{
+  "name": "openshift-deployment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node postinstall.js"
+  },
+  "author": "Henning Gerrits",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^0.22.1",
+    "node-git": "0.0.0",
+    "nodegit": "^0.4.1",
+    "q": "^1.4.1",
+    "require-promise": "^1.0.1"
+  }
+}

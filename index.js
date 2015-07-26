@@ -71,6 +71,21 @@ function listFiles(root, filters){
     return deferred.promise;
 }
 
+function cleanup(root){
+    return fs.readdirAsync(root)
+        .then(function(files){
+            files = files.filter(function(file){
+                return ['.git', '.openshift'].indexOf(file) === -1;
+            });
+
+            var promises = files.map(function(file){
+               return fs.removeAsync(path.join(root, file));
+            });
+
+            return Q.all(promises);
+        });
+}
+
 /**
  *
  * @param sourcePath
@@ -97,9 +112,12 @@ api.deploy = function (sourcePath, credentials, appId, message) {
             }
         })
         .then(function (repo) { //operate on repository
-            return fs.copyAsync(sourcePath, tempDir, { //copy into newly created repository
-                clobber: true //overwrite existing files
-            })
+            return cleanup(tempDir)
+                .then(function(){
+                    return fs.copyAsync(sourcePath, tempDir, { //copy into newly created repository
+                        clobber: true //overwrite existing files
+                    });
+                })
                 .then(function () {
                     return listFiles(tempDir, ['.openshift', '.git']);
                 })

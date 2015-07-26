@@ -1,0 +1,9 @@
+{
+  "cartridge": "nodejs-0.10",
+  "key": {
+    "filename": "openshift_rsa",
+    "name": "cloudify",
+    "comment": "created by CloudifyToMM (ToMM Apps GmbH)",
+    "password": "cloudify"
+  }
+}

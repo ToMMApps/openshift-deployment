@@ -10,10 +10,10 @@
   "author": "Henning Gerrits",
   "license": "ISC",
   "dependencies": {
-    "fs-extra": "^0.22.1",
-    "node-git": "0.0.0",
+    "fs-extra-promise": "^0.2.0",
     "nodegit": "^0.4.1",
     "q": "^1.4.1",
-    "require-promise": "^1.0.1"
+    "request-promise": "^0.4.2",
+    "walk": "^2.3.9"
   }
 }

@@ -58,15 +58,14 @@ describe('deploy', function(){
     });
 
     it("should deploy an existing repo", function(done){
-        var existsAsync = sandbox.stub(fs, "existsAsync").returns(Q(true));
         var credentials = {};
         var sourcePath = "sourcePath";
         var domainId = "domainId";
         var appId = "appId";
         var files = [];
 
+        sandbox.stub(fs, "existsAsync").returns(Q(true));
         sandbox.stub(Repository, "open").returns(Q(repo));
-        sandbox.stub(repo, "mergeBranches").returns(Q());
         sandbox.stub(repo, "createCommitOnHead").returns(Q());
         sandbox.stub(repo, "getRemote").returns(Q(remote));
         sandbox.stub(helper, 'pull').returns(Q());
@@ -91,7 +90,39 @@ describe('deploy', function(){
             sinon.assert.calledOnce(remote.push);
             done();
         }).catch(console.error);
-
     });
 
+    it("should clone repo if non-existing", function(done){
+        var credentials = {};
+        var sourcePath = "sourcePath";
+        var domainId = "domainId";
+        var appId = "appId";
+        var files = [];
+
+        sandbox.stub(fs, "existsAsync").returns(Q(false));
+        sandbox.stub(repo, "createCommitOnHead").returns(Q());
+        sandbox.stub(repo, "getRemote").returns(Q(remote));
+        sandbox.stub(helper, 'cloneOpenShiftRepo').returns(Q(repo));
+        sandbox.stub(helper, 'cleanup').returns(Q());
+        sandbox.stub(helper, 'listFiles').returns(Q());
+        sandbox.stub(fs, 'copyAsync').returns(Q(files));
+        sandbox.stub(remote, "setCallbacks").returns(Q());
+        sandbox.stub(remote, "connect").returns(Q());
+        sandbox.stub(remote, "push").returns(Q());
+        sandbox.stub(Cred, 'sshKeyNew').returns(Q());
+
+        deploy(credentials, domainId, appId).then(function(){
+            sinon.assert.calledOnce(fs.existsAsync);
+            sinon.assert.calledOnce(helper.cloneOpenShiftRepo);
+            sinon.assert.calledOnce(helper.cleanup);
+            sinon.assert.calledOnce(fs.copyAsync);
+            sinon.assert.calledOnce(helper.listFiles);
+            sinon.assert.calledOnce(repo.createCommitOnHead);
+            sinon.assert.calledWithExactly(repo.getRemote, 'origin');
+            sinon.assert.calledOnce(remote.setCallbacks);
+            sinon.assert.calledWithExactly(remote.connect, NodeGit.Enums.DIRECTION.PUSH);
+            sinon.assert.calledOnce(remote.push);
+            done();
+        }).catch(console.error);
+    });
 });

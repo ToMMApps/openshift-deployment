@@ -22,7 +22,7 @@ api.deploy = function (credentials, domainId, appId, sourcePath, message) {
                         });
                     });
             } else {
-                return cloneOpenShiftRepo(credentials, domainId, appId, tempDir);
+                return helper.cloneOpenShiftRepo(credentials, domainId, appId, tempDir);
             }
         })
         .then(function (repo) { //operate on repository

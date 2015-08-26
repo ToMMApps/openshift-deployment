@@ -169,6 +169,74 @@ describe('rest', function(){
     });
 
     describe('application', function(){
+        var application = require('../rest/application');
 
+        var domains = nock('https://openshift.redhat.com/broker/rest/domains', {
+            reqheaders: {
+                'authorization': 'Basic dXNlcjpwYXNz',
+                accept: '*/*'
+            }
+        });
+        var credentials = {
+            user: "user",
+            pass: "pass"
+        };
+
+        describe('info', function(){
+            it("should exist", function(){
+                expect(application.info).to.be.an('function');
+            });
+
+            it("should get app information", function(done){
+                var domainId = "domainId";
+                var appId = "appId";
+
+                var exampleResponse = {
+                    "data": {
+                        "aliases": [],
+                        "app_url": "http://myapp-MyDomain.rhcloud.com/",
+                        "build_job_url": null,
+                        "building_app": null,
+                        "building_with": null,
+                        "creation_time": "2012-10-18T23:44:21Z",
+                        "domain_id": "MyDomain",
+                        "embedded": {
+                            "haproxy-1.4": {},
+                            "mysql-5.1": {
+                                "connection_url": "mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/",
+                                "database_name": "myapp",
+                                "password": "zF2MfdIdGdMk",
+                                "username": "admin",
+                                "info": "Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/"
+                            }
+                        },
+                        "framework": "php-5.3",
+                        "gear_count": 2,
+                        "gear_profile": "small",
+                        "git_url": "ssh://dfd34495f6ab404e819d2f74ebd4cb50@myapp-MyDomain.rhcloud.com/~/git/myapp.git/",
+                        "health_check_path": "health_check.php",
+                        "initial_git_url": "",
+                        "name": "myapp",
+                        "scalable": true,
+                        "ssh_url": "ssh://dfd34495f6ab404e819d2f74ebd4cb50@myapp-MyDomain.rhcloud.com",
+                        "uuid": "dfd34495f6ab404e819d2f74ebd4cb50"
+                    },
+                    "messages": [],
+                    "status": "ok",
+                    "type": "application"
+                };
+
+                var scope = domains
+                    .get('/' + domainId + '/applications/' + appId)
+                    .reply(200, exampleResponse);
+
+                application.info(credentials, domainId, appId)
+                    .then(function(data){
+                        expect(data).to.eql(exampleResponse.data);
+                        scope.done();
+                        done();
+                    });
+            });
+        });
     })
 });

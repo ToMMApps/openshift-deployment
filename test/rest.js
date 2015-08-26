@@ -3,7 +3,7 @@ describe('rest', function(){
     var nock = require('nock');
     var sinon = require('sinon');
     var config = require('../config');
-    var rest = require('../rest');
+    var rest = require('../lib/rest');
     var fs = require('fs-extra-promise');
     var Q = require('q');
 
@@ -28,7 +28,7 @@ describe('rest', function(){
     });
 
     describe('ssh', function(){
-        var ssh = require('../rest/ssh');
+        var ssh = require('../lib/rest/ssh');
         var keys = nock('https://openshift.redhat.com/broker/rest/user/keys', {
             reqheaders: {
                 'authorization': 'Basic dXNlcjpwYXNz',
@@ -169,7 +169,7 @@ describe('rest', function(){
     });
 
     describe('application', function(){
-        var application = require('../rest/application');
+        var application = require('../lib/rest/application');
 
         var domains = nock('https://openshift.redhat.com/broker/rest/domains', {
             reqheaders: {

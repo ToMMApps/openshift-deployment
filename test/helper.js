@@ -7,6 +7,7 @@ describe('helper', function() {
     var fs = require('fs-extra-promise');
     var Q = require('q');
     var rest = require('./../lib/rest');
+    var NodeGit = require('nodegit');
 
     var sandbox;
 
@@ -91,6 +92,64 @@ describe('helper', function() {
             helper.transformUrl(credentials, domainId, appId).then(function(git_url){
                 expect(git_url).to.equal(expectedGitUrl);
                 sinon.assert.calledWithExactly(rest.application.info, credentials, domainId, appId);
+                done();
+            }).catch(console.error);
+        });
+    });
+
+    describe("cloneOpenShiftRepo", function(){
+        it("should be defined", function(){
+            expect(helper.cloneOpenShiftRepo).to.be.an('function');
+        });
+
+        it("should call NodeGit.Clone with the correct parameters", function(done){
+            var domainId = "MyDomain";
+            var appId = "MyApp";
+            var url = "git_url";
+            var path = "path";
+
+            var credentials = {
+                user: "user",
+                pass: "pass"
+            };
+
+            sandbox.stub(helper, "transformUrl").returns(Q(url));
+            sandbox.stub(rest.ssh, "update").returns(Q());
+            sandbox.stub(NodeGit, "Clone").returns(Q());
+            sandbox.stub(NodeGit.Cred, "sshKeyNew");
+
+            helper.cloneOpenShiftRepo(credentials, domainId, appId, path).then(function(){
+                sinon.assert.calledWithExactly(helper.transformUrl, credentials, domainId, appId);
+                sinon.assert.calledWithExactly(rest.ssh.update, credentials);
+                sinon.assert.calledWith(NodeGit.Clone, url, path);
+                done();
+            }).catch(console.error);
+        });
+    });
+
+    describe("pull", function(){
+        it("should be defined", function(){
+            expect(helper.pull).to.be.an('function');
+        });
+
+        it("should call mergeBranches", function(done){
+
+            var repo = {
+                fetchAll: function(){},
+                mergeBranches: function(){}
+            };
+
+            var credentials = {
+                user: "user",
+                pass: "pass"
+            };
+
+            sandbox.stub(repo, "fetchAll").returns(Q());
+            sandbox.stub(repo, "mergeBranches").returns(Q());
+
+            helper.pull(repo).then(function(){
+                sinon.assert.calledOnce(repo.fetchAll);
+                sinon.assert.calledWithExactly(repo.mergeBranches, "master", "origin/master");
                 done();
             }).catch(console.error);
         });

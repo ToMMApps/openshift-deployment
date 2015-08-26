@@ -23,7 +23,7 @@ function transformPublicKey(){
 }
 
 /**
- * Retrieve list of server-side ssh keys
+ * Retrieve list of server-side ssh keys.
  * @param {object} credentials user and pass
  */
 api.list = function(credentials){
@@ -82,10 +82,13 @@ api.update = function(credentials, publicKey){
                 serverSideKey.value.type !== clientSideKey.value.type ||
                 serverSideKey.value.content !== clientSideKey.value.content
             ){
-                return api.delete(credentials)
-                    .then(function(){
-                        return api.upload(credentials);
-                    });
+                return rp.put('https://openshift.redhat.com/broker/rest/user/keys/' + config.key.name, {
+                    headers: {
+                        accept: '*/*'
+                    },
+                    auth: credentials,
+                    form: clientSideKey.value
+                });
             } else {
                 return Q(clientSideKey.value);
             }

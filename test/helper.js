@@ -8,6 +8,8 @@ describe('helper', function() {
     var Q = require('q');
     var rest = require('./../lib/rest');
     var NodeGit = require('nodegit');
+    var walk = require('walk');
+    var mockFs = require('mock-fs');
 
     var sandbox;
 
@@ -17,6 +19,7 @@ describe('helper', function() {
 
     afterEach(function () {
         sandbox.restore();
+        mockFs.restore();
     });
 
     describe("cleanup", function(){
@@ -139,17 +142,41 @@ describe('helper', function() {
                 mergeBranches: function(){}
             };
 
-            var credentials = {
-                user: "user",
-                pass: "pass"
-            };
-
             sandbox.stub(repo, "fetchAll").returns(Q());
             sandbox.stub(repo, "mergeBranches").returns(Q());
 
             helper.pull(repo).then(function(){
                 sinon.assert.calledOnce(repo.fetchAll);
                 sinon.assert.calledWithExactly(repo.mergeBranches, "master", "origin/master");
+                done();
+            }).catch(console.error);
+        });
+    });
+
+    describe("listFiles", function(){
+        it("should be defined", function(){
+            expect(helper.listFiles).to.be.an('function');
+        });
+
+        it("should return a list of files", function(done){
+
+            var expectedFiles = ["root/file", "root/subDir/file"];
+            var filter = ["git"];
+
+            mockFs({
+                'root': {
+                    'file': '',
+                    'subDir': {
+                        'file': ''
+                    },
+                    'git': {
+
+                    }
+                }
+            });
+
+            helper.listFiles('root', filter).then(function(files, filter){
+                expect(files).to.eql(expectedFiles);
                 done();
             }).catch(console.error);
         });

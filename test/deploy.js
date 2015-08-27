@@ -81,6 +81,7 @@ describe('deploy', function(){
 
         deploy(credentials, domainId, appId).then(function(){
             sinon.assert.calledWithExactly(fs.existsAsync, expectedTempDir);
+            sinon.assert.calledOnce(fs.existsAsync, expectedTempDir);
             sinon.assert.calledWithExactly(Repository.open, expectedTempDir);
             sinon.assert.calledWithExactly(helper.pull, repo);
             sinon.assert.calledOnce(helper.cleanup);
@@ -91,6 +92,19 @@ describe('deploy', function(){
             sinon.assert.calledOnce(remote.setCallbacks);
             sinon.assert.calledWithExactly(remote.connect, NodeGit.Enums.DIRECTION.PUSH);
             sinon.assert.calledOnce(remote.push);
+            sinon.assert.callOrder(
+                fs.existsAsync,
+                Repository.open,
+                helper.pull,
+                helper.cleanup,
+                fs.copyAsync,
+                helper.listFiles,
+                repo.createCommitOnHead,
+                repo.getRemote,
+                remote.setCallbacks,
+                remote.connect,
+                remote.push
+            );
             done();
         }).catch(console.error);
     });

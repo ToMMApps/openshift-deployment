@@ -11,6 +11,7 @@ describe('deploy', function(){
     var Repository = NodeGit.Repository;
     var helper = require('../lib/helper');
     var Cred = NodeGit.Cred;
+    var path = require('path');
 
     var repo = {
         fetchAll: function(){
@@ -63,6 +64,7 @@ describe('deploy', function(){
         var domainId = "domainId";
         var appId = "appId";
         var files = [];
+        var expectedTempDir = path.join(process.env.TMPDIR, domainId, appId);
 
         sandbox.stub(fs, "existsAsync").returns(Q(true));
         sandbox.stub(Repository, "open").returns(Q(repo));
@@ -78,7 +80,8 @@ describe('deploy', function(){
         sandbox.stub(Cred, 'sshKeyNew').returns(Q());
 
         deploy(credentials, domainId, appId).then(function(){
-            sinon.assert.calledOnce(Repository.open);
+            sinon.assert.calledWithExactly(fs.existsAsync, expectedTempDir);
+            sinon.assert.calledWithExactly(Repository.open, expectedTempDir);
             sinon.assert.calledWithExactly(helper.pull, repo);
             sinon.assert.calledOnce(helper.cleanup);
             sinon.assert.calledOnce(fs.copyAsync);

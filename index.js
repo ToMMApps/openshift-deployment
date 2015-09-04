@@ -9,7 +9,7 @@ var helper = require('./lib/helper');
 
 api.deploy = function (credentials, domainId, appId, sourcePath, message) {
 
-    var tempDir = path.join(process.env.TMPDIR, domainId, appId);
+    var tempDir = path.join(process.env.TMPDIR, "openshift-deployment", domainId, appId);
 
     return fs.existsAsync(tempDir)
         .then(function(tempDirExists){  //cleanup temporary directory

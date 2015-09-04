@@ -64,7 +64,7 @@ describe('deploy', function(){
         var domainId = "domainId";
         var appId = "appId";
         var files = [];
-        var expectedTempDir = path.join(process.env.TMPDIR, domainId, appId);
+        var expectedTempDir = path.join(process.env.TMPDIR, "openshift-deployment", domainId, appId);
 
         sandbox.stub(fs, "existsAsync").returns(Q(true));
         sandbox.stub(Repository, "open").returns(Q(repo));

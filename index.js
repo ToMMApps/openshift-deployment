@@ -7,6 +7,9 @@ var config = require('./config');
 var rest = require('./lib/rest');
 var helper = require('./lib/helper');
 
+var privateKeyFilename = path.join(__dirname, config.key.filename);
+var publicKeyFilename = privateKeyFilename + ".pub";
+
 api.deploy = function (credentials, domainId, appId, sourcePath, message) {
 
     var tempDir = path.join(process.env.TMPDIR, "openshift-deployment", domainId, appId);
@@ -48,7 +51,7 @@ api.deploy = function (credentials, domainId, appId, sourcePath, message) {
                     return 1;
                 },
                 credentials: function (url, userName) {
-                    return NodeGit.Cred.sshKeyNew(userName, config.key.filename + ".pub", config.key.filename, config.key.password);
+                    return NodeGit.Cred.sshKeyNew(userName, publicKeyFilename, privateKeyFilename, config.key.password);
                 }
             });
             return remote.connect(NodeGit.Enums.DIRECTION.PUSH)

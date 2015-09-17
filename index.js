@@ -10,6 +10,17 @@ var helper = require('./lib/helper');
 var privateKeyFilename = path.join(__dirname, config.key.filename);
 var publicKeyFilename = privateKeyFilename + ".pub";
 
+/**
+ * Deploys the whole folder sourcePath to the given OpenShift app under the given domain.
+ * The credentials are used to register this module's ssh key in the given OpenShift account.
+ * This is necessary to be able to upload code. The ssh key is generated on npm install.
+ * @param {object} credentials Must at least have the properties: user and pass. Those are used as credentials for OpenShift.
+ * @param {string} domainId
+ * @param {string} appId
+ * @param {string} sourcePath
+ * @param {string} message
+ * @returns {promise}
+ */
 api.deploy = function (credentials, domainId, appId, sourcePath, message) {
 
     var tempDir = path.join(process.env.TMPDIR, "openshift-deployment", domainId, appId);

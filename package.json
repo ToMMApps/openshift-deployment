@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "postinstall": "node postinstall.js",
-    "coverage": "istanbul cover _mocha"
+    "cover": "istanbul cover _mocha"
   },
   "author": "Henning Gerrits",
   "license": "ISC",

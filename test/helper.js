@@ -58,7 +58,7 @@ describe('helper', function() {
                 pass: "pass"
             };
 
-            var expectedGitUrl = "ssh://dfd34495f6ab404e819d2f74ebd4cb50@myapp-MyDomain.rhcloud.com/var/lib/openshift/dfd34495f6ab404e819d2f74ebd4cb50/git/myapp.git/"
+            var expectedGitUrl = "ssh://dfd34495f6ab404e819d2f74ebd4cb50@myapp-MyDomain.rhcloud.com/var/lib/openshift/dfd34495f6ab404e819d2f74ebd4cb50/git/myapp.git/";
 
             var exampleAppInfo = {
                 "aliases": [],
@@ -87,7 +87,7 @@ describe('helper', function() {
                 "name": "myapp",
                 "scalable": true,
                 "ssh_url": "ssh://dfd34495f6ab404e819d2f74ebd4cb50@myapp-MyDomain.rhcloud.com",
-                "uuid": "dfd34495f6ab404e819d2f74ebd4cb50"
+                "id": "dfd34495f6ab404e819d2f74ebd4cb50"
             };
 
             sandbox.stub(rest.application, "info").returns(Q(exampleAppInfo));

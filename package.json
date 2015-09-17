@@ -1,0 +1,28 @@
+{
+  "name": "openshift-deployment",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "postinstall": "node postinstall.js",
+    "cover": "istanbul cover _mocha"
+  },
+  "author": "Henning Gerrits",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra-promise": "^0.2.0",
+    "nodegit": "^0.4.1",
+    "q": "^1.4.1",
+    "request-promise": "^0.4.2",
+    "walk": "^2.3.9"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "istanbul": "^0.3.18",
+    "mocha": "^2.2.5",
+    "mock-fs": "^3.1.0",
+    "nock": "^2.10.0",
+    "sinon": "^1.16.1"
+  }
+}

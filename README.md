@@ -7,10 +7,12 @@ Create a new OpenShift application under a specific domain. This can be done on 
 That's it. Now you are ready to use the deploy function. SSH key management will be done automatically for you. 
 This tool generates a new SSH key on npm install.
 
+```
 var openshift = require('openshift');
 openshift.deploy({user: 'example@test.com', pass: 'pass'}, 'myDomain', 'myApp', sourcePath).then(function(){
     //done
 });
+```
 
 If the deployment was successful this function resolves.
 

@@ -1,31 +1,29 @@
 var fs = require('fs');
 var config = require('./config');
 var path = require('path');
-var child_process = require('child_process');
 var Q = require('q');
-var spawn = child_process.spawn;
 var location = path.join(__dirname, config.key.filename);
-var readFile = Q.nfbind(fs.readFile);
 var stat = Q.nfbind(fs.stat);
+var writeFile = Q.nfbind(fs.writeFile);
+var keypair = require('keypair');
 
 Q.all([
     stat(location),
     stat(location + ".pub")
 ])
 .then(function(){
-    console.log("SSH-Key does already exist");
+    return Q("SSH-Key does already exist");
 }, function(){
-    var sshKeygen = spawn('ssh-keygen', [
-        '-t','rsa',
-        '-C', config.key.comment,
-        '-f', location
-    ]);
+        var pair = keypair();
 
-    sshKeygen.stdout.on('data', function(data){
-        console.log(data.toString());
-    });
+        var publicKey = "ssh-rsa" + " " + pair.public.split("\n")[1] + " " + config.key.comment;
 
-    sshKeygen.stderr.on('data', function(data){
-        console.error(data.toString());
-    });
-});
+        return Q([
+            writeFile(location, pair.private),
+            writeFile(location + ".pub", publicKey)
+        ]).then(function () {
+            return Q("Successfully generated SSH-Key");
+        }, function () {
+            return Q.reject("Failed to generate SSH-Key");
+        })
+}).then(console.log, console.error);

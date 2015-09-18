@@ -11,7 +11,7 @@
   "author": "Henning Gerrits",
   "license": "MIT",
   "dependencies": {
-    "fs-extra-promise": "^0.2.0",
+    "keypair": "^1.0.0",
     "nodegit": "^0.4.1",
     "q": "^1.4.1",
     "request-promise": "^0.4.2",
@@ -21,8 +21,8 @@
     "type": "git",
     "url": "https://github.com/ToMMApps/openshift-deployment.git"
   },
-  "engines" : {
-    "node" : ">=0.10.40"
+  "engines": {
+    "node": ">=0.10.40"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",

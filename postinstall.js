@@ -19,7 +19,6 @@ Q.all([
 
     var sshKeygen = spawn('ssh-keygen', [
         '-t','rsa',
-        '-b','4096',
         '-C', config.key.comment,
         '-f', location
     ]);

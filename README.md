@@ -28,8 +28,10 @@ openshift.deploy({user: 'example@test.com', pass: 'pass'}, 'myDomain', 'myApp', 
 If the deployment was successful this function resolves.
 
 Code-Quality
---------------
+-------------
 
-For coverage report run "npm run cover" and npm test for all mocha tests.
-
-Written by Henning Gerrits, ToMM Apps GmbH
+Current Jenkins report for this project:
+- ![BuildStatus](http://jenkins.tomm-apps.de/buildStatus/icon?job=openshift-deployment)
+- ![Test](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/test)
+- ![LastBuild](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/lastbuild)
+- ![CodeCoverageInJenkins](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/coverage)

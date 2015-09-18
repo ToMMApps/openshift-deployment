@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "postinstall": "node postinstall.js",
-    "cover": "istanbul cover _mocha"
+    "test": "mocha test --reporter mocha-junit-reporter",
+    "cover": "istanbul cover -x test _mocha -report cobertura",
+    "postinstall": "node postinstall.js"
   },
   "author": "Henning Gerrits",
   "license": "MIT",
@@ -21,10 +21,14 @@
     "type": "git",
     "url": "https://github.com/ToMMApps/openshift-deployment.git"
   },
+  "engines" : {
+    "node" : ">=0.10.40"
+  },
   "devDependencies": {
     "expect.js": "^0.3.1",
     "istanbul": "^0.3.18",
     "mocha": "^2.2.5",
+    "mocha-junit-reporter": "^1.6.1",
     "mock-fs": "^3.1.0",
     "nock": "^2.10.0",
     "sinon": "^1.16.1"

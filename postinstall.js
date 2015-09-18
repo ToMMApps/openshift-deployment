@@ -13,34 +13,19 @@ Q.all([
     stat(location + ".pub")
 ])
 .then(function(){
-    return Q("");
+    console.log("SSH-Key does already exist");
 }, function(){
-    var deferred = Q.defer();
-
     var sshKeygen = spawn('ssh-keygen', [
         '-t','rsa',
         '-C', config.key.comment,
         '-f', location
     ]);
 
-    var message = "\n";
-
     sshKeygen.stdout.on('data', function(data){
-        message += data.toString();
+        console.log(data.toString());
     });
 
     sshKeygen.stderr.on('data', function(data){
-        message += data.toString();
+        console.error(data.toString());
     });
-
-    sshKeygen.on('close', function(code){
-        if(code !== 0){
-            deferred.reject(new Error(message));
-        } else {
-            deferred.resolve(message);
-        }
-    });
-
-    return deferred.promise;
-})
-.then(console.log, console.error);
+});

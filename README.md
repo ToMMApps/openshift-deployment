@@ -2,6 +2,11 @@
 
 This tool allows it to deploy a given folder to OpenShift.
 
+![BuildStatus](http://jenkins.tomm-apps.de/buildStatus/icon?job=openshift-deployment)
+![Test](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/test)
+![LastBuild](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/lastbuild)
+![CodeCoverageInJenkins](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/coverage)
+
 Installation
 -------------
 
@@ -26,12 +31,3 @@ openshift.deploy({user: 'example@test.com', pass: 'pass'}, 'myDomain', 'myApp', 
 ```
 
 If the deployment was successful this function resolves.
-
-Code-Quality
--------------
-
-Current Jenkins report for this project:
-- ![BuildStatus](http://jenkins.tomm-apps.de/buildStatus/icon?job=openshift-deployment)
-- ![Test](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/test)
-- ![LastBuild](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/lastbuild)
-- ![CodeCoverageInJenkins](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/coverage)

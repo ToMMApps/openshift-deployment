@@ -1,4 +1,4 @@
-#OpenShift-Deployment
+# OpenShift-Deployment
 
 This tool allows it to deploy a given folder to OpenShift.
 
@@ -7,15 +7,13 @@ This tool allows it to deploy a given folder to OpenShift.
 ![LastBuild](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/lastbuild)
 ![CodeCoverageInJenkins](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/coverage)
 
-Installation
--------------
+## Installation
 
-```
+```javascript
 npm install openshift-deployment
 ```
 
-Usage
----------
+## Usage
 
 You will only need to do the following:
 
@@ -31,3 +29,7 @@ openshift.deploy({user: 'example@test.com', pass: 'pass'}, 'myDomain', 'myApp', 
 ```
 
 If the deployment was successful this function resolves.
+
+## License
+
+MIT

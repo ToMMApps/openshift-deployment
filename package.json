@@ -11,6 +11,7 @@
   "author": "Henning Gerrits",
   "license": "MIT",
   "dependencies": {
+    "child-process-promise": "^1.1.0",
     "fs-extra-promise": "^0.2.1",
     "keypair": "^1.0.0",
     "q": "^1.4.1",

@@ -1,16 +1,19 @@
-#OpenShift-Deployment
+# OpenShift-Deployment
 
 This tool allows it to deploy a given folder to OpenShift.
 
-Installation
--------------
+![BuildStatus](http://jenkins.tomm-apps.de/buildStatus/icon?job=openshift-deployment)
+![Test](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/test)
+![LastBuild](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/lastbuild)
+![CodeCoverageInJenkins](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/coverage)
 
-```
+## Installation
+
+```javascript
 npm install openshift-deployment
 ```
 
-Usage
----------
+## Usage
 
 You will only need to do the following:
 
@@ -27,11 +30,6 @@ openshift.deploy({user: 'example@test.com', pass: 'pass'}, 'myDomain', 'myApp', 
 
 If the deployment was successful this function resolves.
 
-Code-Quality
--------------
+## License
 
-Current Jenkins report for this project:
-- ![BuildStatus](http://jenkins.tomm-apps.de/buildStatus/icon?job=openshift-deployment)
-- ![Test](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/test)
-- ![LastBuild](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/lastbuild)
-- ![CodeCoverageInJenkins](http://jenkins.tomm-apps.de:3434/badge/openshift-deployment/coverage)
+MIT

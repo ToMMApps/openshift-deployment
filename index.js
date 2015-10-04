@@ -1,14 +1,14 @@
+global.__openShiftDeploymentRoot = __dirname;
+
 var api = Object.create(null);
 var path = require('path');
 var fs = require('fs-extra-promise');
 var Q = require('q');
-var NodeGit = require('nodegit');
 var config = require('./config');
 var rest = require('./lib/rest');
 var helper = require('./lib/helper');
+var git = require('./lib/git');
 
-var privateKeyFilename = path.join(__dirname, config.key.filename);
-var publicKeyFilename = privateKeyFilename + ".pub";
 
 /**
  * Deploys the whole folder sourcePath to the given OpenShift app under the given domain.
@@ -23,18 +23,20 @@ var publicKeyFilename = privateKeyFilename + ".pub";
  */
 api.deploy = function (credentials, domainId, appId, sourcePath, message) {
 
+
+
     var tempDir = path.join(process.env.TMPDIR, "openshift-deployment", domainId, appId);
+
+    console.log(tempDir);
 
     return fs.existsAsync(tempDir)
         .then(function(tempDirExists){  //cleanup temporary directory
             if(tempDirExists){
-                return NodeGit.Repository.open(tempDir)
-                    .then(function(repo){
-                        return helper.pull(repo)
-                        .then(function(){
-                            return Q(repo);
-                        });
+                return git.Repository.open(tempDir).then(function(repo){
+                    return repo.pull("origin", "master").then(function () {
+                        return Q(repo);
                     });
+                });
             } else {
                 return helper.cloneOpenShiftRepo(credentials, domainId, appId, tempDir);
             }
@@ -47,32 +49,14 @@ api.deploy = function (credentials, domainId, appId, sourcePath, message) {
                     });
                 })
                 .then(function () {
-                    return helper.listFiles(tempDir, ['.openshift', '.git']);
-                })
-                .then(function (files) { //commit all
-                    return repo.createCommitOnHead(files, repo.defaultSignature(), repo.defaultSignature(), message);
+                    return repo.addAll();
                 })
                 .then(function () {
-                    return repo.getRemote("origin");
+                    return repo.commit(message);
                 })
-        })
-        .then(function(remote){ //push to master
-            remote.setCallbacks({
-                certificateCheck: function () {
-                    return 1;
-                },
-                credentials: function (url, userName) {
-                    return NodeGit.Cred.sshKeyNew(userName, publicKeyFilename, privateKeyFilename, config.key.password);
-                }
-            });
-            return remote.connect(NodeGit.Enums.DIRECTION.PUSH)
-                .then(function(){
-                    return remote.push(
-                        ["refs/heads/master:refs/heads/master"],
-                        null,
-                        remote.repo.defaultSignature(),
-                        null);
-                });
+                .then(function () {
+                    return repo.push("origin", "master");
+                })
         });
 };
 

@@ -13,10 +13,8 @@
   "dependencies": {
     "fs-extra-promise": "^0.2.1",
     "keypair": "^1.0.0",
-    "nodegit": "^0.4.1",
     "q": "^1.4.1",
-    "request-promise": "^0.4.2",
-    "walk": "^2.3.9"
+    "request-promise": "^0.4.2"
   },
   "repository": {
     "type": "git",

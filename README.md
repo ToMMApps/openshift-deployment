@@ -30,6 +30,10 @@ openshift.deploy({user: 'example@test.com', pass: 'pass'}, 'myDomain', 'myApp', 
 
 If the deployment was successful this function resolves.
 
+## Release Notes 0.2
+
+The dependency to [nodegit](https://github.com/nodegit/nodegit) was removed, because its compiler requirements were too high to install it in the OpenShift Node.js 0.10 Cartridge.
+
 ## License
 
 MIT

@@ -23,11 +23,7 @@ var git = require('./lib/git');
  */
 api.deploy = function (credentials, domainId, appId, sourcePath, message) {
 
-
-
     var tempDir = path.join(process.env.TMPDIR, "openshift-deployment", domainId, appId);
-
-    console.log(tempDir);
 
     return fs.existsAsync(tempDir)
         .then(function(tempDirExists){  //cleanup temporary directory

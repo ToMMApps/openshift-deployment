@@ -31,6 +31,10 @@ api.deploy = function (credentials, domainId, appId, sourcePath, message) {
                 return git.Repository.open(tempDir).then(function(repo){
                     return repo.pull("origin", "master").then(function () {
                         return Q(repo);
+                    }, function () {
+                        return fs.removeAsync(tempDir).then(function () {
+                            return helper.cloneOpenShiftRepo(credentials, domainId, appId, tempDir);
+                        });
                     });
                 });
             } else {

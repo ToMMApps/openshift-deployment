@@ -1,9 +1,1 @@
-{
-  "cartridge": "nodejs-0.10",
-  "key": {
-    "filename": "openshift_rsa",
-    "name": "cloudify",
-    "comment": "created by CloudifyToMM (ToMM Apps GmbH)",
-    "password": "cloudify"
-  }
-}
+{"cartridge":"nodejs-0.10","key":{"filename":"openshift_rsa","name":"cloudify_MacbookPro-Ethernet.fritz.box","comment":"created by CloudifyToMM (ToMM Apps GmbH)","password":"cloudify"}}

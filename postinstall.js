@@ -7,12 +7,11 @@ var stat = Q.nfbind(fs.stat);
 var os = require('os');
 
 var config = {
-    "cartridge": "nodejs-0.10",
     "key": {
         "filename": "openshift_rsa",
-        "name": "cloudify" + "_" + os.hostname(),
-        "comment": "created by CloudifyToMM (ToMM Apps GmbH)",
-        "password": "cloudify"
+        "name": "openshift-deployment" + "_" + os.hostname(),
+        "comment": "created by openshift-deployment",
+        "password": "openshift-deployment"
     }
 };
 
